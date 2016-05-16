@@ -1,7 +1,8 @@
 <?
-session_register("initialized");
-session_register("points");
-session_register("deck");
+	session_start();
+	
+	$deck = $_SESSION['deck'];
+	$points = $_SESSION['points'];
 
     require("consts.php");
     require("hands.php");
@@ -16,14 +17,14 @@ session_register("deck");
         Only bring up the main screen if the session variables had been 
         initialzed from index.php
     */
-    if ($initialized == true)
+    if ($_SESSION['initialized'] == true)
     {
         echo("<FORM ACTION='poker.php' METHOD=POST>");
         echo("<INPUT TYPE=TEXT NAME='bet'>");
         echo("<INPUT TYPE=SUBMIT NAME='dobet' VALUE='Place Your Bet'>");
         echo("</FORM>");
 
-        main($deck, $bet, $dobet, $points);
+        main($deck, $_POST['bet'], $dobet, $points);
     }
     else
     {
@@ -54,14 +55,14 @@ function main(&$deck, $bet, $dobet, &$points)
 {
 
     echo("<BR>You have $points points to bet<BR>");
-    if (isset($dobet))
+    if (isset($_POST['dobet']) && !empty($_POST['dobet']))
     {
         //Check bet
         if ($bet <= 0)
         {
             echo("<BR>You must bet at least 1 neopoint<BR>");
         }
-        else if ($bet > $points)
+        else if ($bet  > $points)
         {
             echo("<BR>You bet more points then you currently possess<BR>");
         }

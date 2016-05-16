@@ -1,12 +1,7 @@
 <?
 session_start();
-session_register("initialized");
-session_register("points");
-session_register("deck");
-
-    require("consts.php");
-    
-    main($deck, $points, $initialized);
+require("consts.php");
+main($deck, $points, $initialized);
 
 /*
     Function:       main()
@@ -59,8 +54,8 @@ function main(&$deck, &$points, &$initialized)
 
 function init(&$deck, &$points, &$initialized)
 {
-    $points = STARTING_POINTS;
-    $initialized = true;
+    $_SESSION['points'] = STARTING_POINTS;
+    $_SESSION['initialized'] = true;
     /*
       Seed random generated number -- Notes: 1) documentation is incorrect do 
                                                 not use float
@@ -68,7 +63,7 @@ function init(&$deck, &$points, &$initialized)
                                                 once per running of my script 
     */
     srand((double)microtime() * RANDOM_SEED);
-    $deck = range(0, DECK_SIZE);               //Initialize the deck
+    $_SESSION['deck'] = range(0, DECK_SIZE);               //Initialize the deck
 }
 
 ?>
